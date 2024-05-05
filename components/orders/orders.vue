@@ -80,7 +80,7 @@ export default {
     headers: [
       { title: text.orders.form.id, key: 'id' },
       { title: text.orders.form.name, key: 'offer.name',},
-      { title: text.orders.form.legalName, key: 'customer.legalName' },
+      { title: text.orders.form.customer, key: 'customer.legalName' },
       { title: text.orders.form.vendors, key: 'vendors',},
       { title: text.orders.form.description, key: 'description' },
       { title: text.orders.form.licenseCount, key: 'licenseCount' },
