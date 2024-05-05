@@ -2,7 +2,7 @@
   <v-dialog v-model="internalDialog" max-width="500px" class="mt-5">
     <!--  Add customer button -->
     <template v-slot:activator="{ props }">
-      <v-btn class="ml-4 mb-4 add-button" v-bind="props">Add Customer</v-btn>
+      <v-btn class="ml-4 mb-4 add-button" v-bind="props">{{ text.customers.addCustomer }}</v-btn>
     </template>
     <v-card>
       <!-- Title -->
@@ -15,16 +15,16 @@
         <v-container>
           <v-row>
             <v-col cols="12" md="4" sm="6">
-              <v-text-field v-model="form.id"  readonly label="Identifiant"></v-text-field>
+              <v-text-field v-model="form.id"  readonly :label="text.customers.form.id"></v-text-field>
             </v-col>
             <v-col cols="12" md="4" sm="6">
-              <v-text-field v-model="form.siren" :error-messages="sirenErrors" label="Siren"></v-text-field>
+              <v-text-field v-model="form.siren" :error-messages="sirenErrors" :label="text.customers.form.siren"></v-text-field>
             </v-col>
             <v-col cols="12" md="4" sm="6">
-              <v-text-field v-model="form.siret" :error-messages="siretErrors" label="Siret"></v-text-field>
+              <v-text-field v-model="form.siret" :error-messages="siretErrors" :label="text.customers.form.siret"></v-text-field>
             </v-col>
             <v-col cols="12" md="4" sm="6">
-              <v-text-field v-model="form.legalName" :error-messages="legalNameErrors" label="Legal Name"></v-text-field>
+              <v-text-field v-model="form.legalName" :error-messages="legalNameErrors" :label="text.customers.form.legalName"></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -33,14 +33,16 @@
       <!-- Actions  -->
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue-darken-1" variant="text" @click="closeDialog">Cancel</v-btn>
-        <v-btn color="blue-darken-1" variant="text" @click="saveDialog">Save</v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="closeDialog">{{ text.buttons.cancel }}</v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="saveDialog">{{ text.buttons.submit }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import text from '@/locales/texte.js';
+
 export default {
   props: {
     form: {
@@ -66,32 +68,33 @@ export default {
   },
 
   data: () => ({
+    text: text,
     internalDialog: false,
     formValid: false,
   }),
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'Add Customer' : 'Edit Customer'
+      return this.editedIndex === -1 ? text.customers.addCustomer : text.customers.editCustomer
     },
     // Handle the cases
     sirenErrors() {
       const errors = [];
-      if (!this.form.siren) errors.push('Siren is required');
-      if (this.form.siren && this.form.siren.length !== 9) errors.push('Siren must be 9 characters');
-      if (this.form.siren && !/^\d+$/.test(this.form.siren)) errors.push('Siren must be numeric');
+      if (!this.form.siren) errors.push(text.customers.validation.siren.required);
+      if (this.form.siren && this.form.siren.length !== 9) errors.push(text.customers.validation.siren.max);
+      if (this.form.siren && !/^\d+$/.test(this.form.siren)) errors.push(text.customers.validation.siren.num);
       return errors;
     },
     siretErrors() {
       const errors = [];
-      if (!this.form.siret) errors.push('Siret is required');
-      if (this.form.siret && this.form.siret.length !== 14) errors.push('Siret must be 14 characters');
-      if (this.form.siret && !/^\d+$/.test(this.form.siret)) errors.push('Siret must be numeric');
+      if (!this.form.siret) errors.push(text.customers.validation.siret.required);
+      if (this.form.siret && this.form.siret.length !== 14) errors.push(text.customers.validation.siret.max);
+      if (this.form.siret && !/^\d+$/.test(this.form.siret)) errors.push(text.customers.validation.siret.num);
       return errors;
     },
     legalNameErrors() {
       const errors = [];
-      if (!this.form.legalName) errors.push('Legal Name is required');
+      if (!this.form.legalName) errors.push(text.customers.validation.legalName.required);
       return errors;
     },
   },

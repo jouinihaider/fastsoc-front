@@ -1,6 +1,8 @@
 <template>
   <div class="page-container">
-  <v-card title="Orders">
+    <h1 class="my-10">{{text.orders.title}}</h1>
+
+    <v-card>
     <!-- Search Components -->
     <template v-slot:text>
       <v-text-field
@@ -64,23 +66,25 @@ import axios from "axios";
 import DialogDelete from "~/components/common/dialog-delete.vue";
 import DialogOrder from "~/components/orders/dialog-order.vue";
 import { API_URL } from '@/config';
+import text from "~/locales/texte.js";
 
 export default {
   components: {DialogOrder, DialogDelete},
   data: () => ({
+    text: text,
     editedItemCustomerId: null,
     editedItemOfferId: null,
     search: '',
     dialog: false,
     dialogDelete: false,
     headers: [
-      { title: 'ID', key: 'id' },
-      { title: 'Offer', key: 'offer.name',},
-      { title: 'Customer', key: 'customer.legalName' },
-      { title: 'Vendors', key: 'vendors',},
-      { title: 'Description', key: 'description' },
-      { title: 'license Count', key: 'licenseCount' },
-      { title: 'Actions', key: 'actions', sortable: false },
+      { title: text.orders.form.id, key: 'id' },
+      { title: text.orders.form.name, key: 'offer.name',},
+      { title: text.orders.form.legalName, key: 'customer.legalName' },
+      { title: text.orders.form.vendors, key: 'vendors',},
+      { title: text.orders.form.description, key: 'description' },
+      { title: text.orders.form.licenseCount, key: 'licenseCount' },
+      { title: text.orders.form.actions, key: 'actions', sortable: false },
     ],
     editedIndex: -1,
     editedItem: {
@@ -246,16 +250,16 @@ export default {
 }
 </script>
 <style type="text/css">
-  .v-toolbar {
-    background-color:transparent!important;
-  }
-  .page-container {
-    padding: 0px 40px;
-    height: 100%;
-    align-content: center;
-  }
-  .add-button {
-    background-color:#e2d6e8!important;
-    padding: 10px 17px!important;
-  }
+.v-toolbar {
+  background-color:transparent!important;
+}
+.page-container {
+  padding: 0px 40px;
+  height: 100%;
+  align-content: center;
+}
+.add-button {
+  background-color:#e2d6e8!important;
+  padding: 10px 17px!important;
+}
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div class="page-container">
+  <h1 class="my-10">{{text.customers.title}}</h1>
 
-  <v-card title="Customers">
+  <v-card>
     <!-- Search Components -->
     <template v-slot:text>
       <v-text-field
@@ -15,7 +16,6 @@
     </template>
 
     <div class=" mt-5">
-
       <!-- Customer Data -->
       <v-data-table
             :headers="headers"
@@ -63,19 +63,21 @@ import axios from "axios";
 import DialogCustomer from "~/components/customers/dialog-customer.vue";
 import DialogDelete from "~/components/common/dialog-delete.vue";
 import { API_URL } from '@/config';
+import text from '@/locales/texte.js';
 
 export default {
   components: {DialogDelete,DialogCustomer},
   data: () => ({
+    text: text,
     search: '',
     dialog: false,
     dialogDelete: false,
     headers: [
-      { title: 'ID', key: 'id' },
-      {title: 'Siret', key: 'siret'},
-      { title: 'Siren', key: 'siren' },
-      { title: 'Legal name', key: 'legalName' },
-      { title: 'Actions', key: 'actions', sortable: false },
+      { title: text.customers.form.id, key: 'id' },
+      { title: text.customers.form.siret, key: 'siret'},
+      { title: text.customers.form.siren, key: 'siren' },
+      { title: text.customers.form.legalName, key: 'legalName' },
+      { title: text.customers.form.actions, key: 'actions', sortable: false },
     ],
     editedIndex: -1,
     editedItem: {

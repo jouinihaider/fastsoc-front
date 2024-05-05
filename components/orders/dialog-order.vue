@@ -2,7 +2,7 @@
 <v-dialog v-model="internalDialog" max-width="500px" class="mt-5">
   <!--  Add order button -->
   <template v-slot:activator="{ props }">
-    <v-btn class="ml-4 mb-4 add-button" color="primary" dark v-bind="props">Add Order</v-btn>
+    <v-btn class="ml-4 mb-4 add-button" color="primary" dark v-bind="props">{{text.orders.addOrder}}</v-btn>
   </template>
   <v-card>
 
@@ -16,11 +16,11 @@
       <v-container>
         <v-row>
           <v-col cols="12" md="4" sm="6">
-            <v-text-field v-model="form.id" readonly label="Identifiant"></v-text-field>
+            <v-text-field v-model="form.id" readonly :label="text.orders.form.id"></v-text-field>
           </v-col>
           <v-col cols="12" md="4" sm="6">
             <v-select
-                label="Offers"
+                :label="text.orders.form.offer"
                 :items="offers"
                 v-model="editedItemOfferId"
                 :error-messages="editedItemOfferIdErrors"
@@ -29,7 +29,7 @@
 
           <v-col cols="12" md="4" sm="6">
             <v-select
-                label="Customer"
+                :label="text.orders.form.customer"
                 :items="customersList"
                 v-model="editedItemCustomerId"
                 :error-messages="editedItemCustomerIdErrors"
@@ -40,18 +40,17 @@
             <v-select
                 v-model="form.vendors"
                 :items="vendors"
-                hint="Pick your favorite states"
-                label="Select"
+                :label="text.orders.form.vendors"
                 multiple
                 persistent-hint
                 :error-messages="formVendorsErrors"
             ></v-select>
           </v-col>
           <v-col cols="12" md="4" sm="6">
-            <v-text-field v-model="form.description" :error-messages="descriptionErrors" label="Description"></v-text-field>
+            <v-text-field v-model="form.description" :error-messages="descriptionErrors" :label="text.orders.form.description"></v-text-field>
           </v-col>
           <v-col cols="12" md="4" sm="6">
-            <v-text-field v-model="form.licenseCount" :error-messages="licenseCountErrors" label="License count"></v-text-field>
+            <v-text-field v-model="form.licenseCount" :error-messages="licenseCountErrors" :label="text.orders.form.licenseCount"></v-text-field>
           </v-col>
         </v-row>
       </v-container>
@@ -60,13 +59,15 @@
     <!-- Actions  -->
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue-darken-1" variant="text" @click="closeDialog">Cancel</v-btn>
-      <v-btn color="blue-darken-1" variant="text" @click="saveDialog">Save</v-btn>
+      <v-btn color="blue-darken-1" variant="text" @click="closeDialog">{{ text.buttons.cancel }}</v-btn>
+      <v-btn color="blue-darken-1" variant="text" @click="saveDialog">{{ text.buttons.submit }}</v-btn>
     </v-card-actions>
   </v-card>
 </v-dialog>
 </template>
 <script>
+import text from "~/locales/texte.js";
+
 export default {
   props: {
     customersList: {
@@ -104,6 +105,7 @@ export default {
   },
 
   data: () => ({
+    text: text,
     internalDialog: false,
     editedItemCustomerId: null,
     editedItemOfferId: null,
@@ -112,34 +114,33 @@ export default {
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'Add Order' : 'Edit Order'
+      return this.editedIndex === -1 ? text.orders.addOrder : text.orders.editOrder
     },
     // Handle the cases
     editedItemOfferIdErrors() {
       const errors = [];
-      if (!this.editedItemOfferId) errors.push('Offer is required');
+      if (!this.editedItemOfferId) errors.push(text.orders.validation.offer.required);
       return errors;
     },
     editedItemCustomerIdErrors() {
       const errors = [];
-      if (!this.editedItemCustomerId) errors.push('Customer is required');
+      if (!this.editedItemCustomerId) errors.push(text.orders.validation.customer.required);
       return errors;
     },
     formVendorsErrors() {
       const errors = [];
-      if (!this.form.vendors || this.form.vendors.length === 0) errors.push('Vendor is required');
+      if (!this.form.vendors || this.form.vendors.length === 0) errors.push(text.orders.validation.vendor.required);
       return errors;
     },
     descriptionErrors() {
       const errors = [];
-      if (!this.form.description) errors.push('Description is required');
-      // Add more validation rules for description if needed
+      if (!this.form.description) errors.push(text.orders.validation.description.required);
       return errors;
     },
     licenseCountErrors() {
       const errors = [];
-      if (!this.form.licenseCount) errors.push('License count is required');
-      // Add more validation rules for license count if needed
+      if (!this.form.licenseCount) errors.push(text.orders.validation.licenseCount.required);
+      if (this.form.licenseCount && !/^\d+$/.test(this.form.licenseCount)) errors.push(text.orders.validation.licenseCount.num);
       return errors;
     },
   },
