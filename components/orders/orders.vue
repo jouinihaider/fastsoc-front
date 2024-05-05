@@ -245,3 +245,17 @@ export default {
   },
 }
 </script>
+<style type="text/css">
+  .v-toolbar {
+    background-color:transparent!important;
+  }
+  .page-container {
+    padding: 0px 40px;
+    height: 100%;
+    align-content: center;
+  }
+  .add-button {
+    background-color:#e2d6e8!important;
+    padding: 10px 17px!important;
+  }
+</style>
